@@ -12,18 +12,36 @@ public class UserController {
         this.repository = repository;
     }
 
-    public void saveUser(User user) {
+    public void saveUser(User user) throws Exception {
+        validateUser(user);
         repository.CreateUser(user);
     }
 
     public User readUser(String userId) throws Exception {
-        List<User> users = repository.getAllUsers();
-        for (User user : users) {
-            if (user.getId().equals(userId)) {
-                return user;
-            }
-        }
+        return repository.readUser(userId);
 
-        throw new Exception("User not found");
     }
+
+    public List<User> readUserList() {
+        return repository.getAllUsers();
+    }
+
+    public User updateUser(User user) throws Exception {
+        validateUser(user);
+        return repository.updateUser(user);
+    }
+private void validateUser(User user) throws Exception {
+        if(user.getFirstName().isEmpty()){
+            throw new Exception("Name not found");
+        }
+    if(user.getLastName().isEmpty()){
+        throw new Exception("LastName not found");
+    }
+    if(user.getPhone().isEmpty()){
+        throw new Exception("Phone not found");
+    }
+
 }
+
+}
+
